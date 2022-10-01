@@ -1,0 +1,58 @@
+int led = 2;                
+int sensor = 10;                     
+int val = 0;
+float temp;
+float tempC = 0;
+float tempF = 0;
+int buzzer = 1;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(2, OUTPUT);      // initalize LED as an output
+  pinMode(10, INPUT);    // initialize sensor as an input        // initialize serial
+  pinMode(A1, INPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop(){
+  val = digitalRead(10);
+  temp = analogRead(A0);
+  temp =((temp*5)/1024);
+  tempC =((temp-0.5)*100);
+  tempF =((tempC)/5 + 32);
+  Serial.print("Temperature = ");
+  Serial.print(tempC);
+  Serial.print(" C , ");
+  Serial.print(tempF);
+  
+  if (temp <=22)
+  {
+  Serial.println(" F ");
+    noTone(buzzer);
+    delay(1000);
+  }
+  
+  if (temp >= 18 && temp <= 22)
+  {
+    noTone(buzzer);
+    delay(1000);
+  }
+  
+  if (temp < 35)
+  {
+    tone(7, 1000);
+    delay(200);
+  }
+  
+  if (val == HIGH) 
+  {           
+    digitalWrite(2, HIGH);
+    Serial.println("LED OFF");                
+  }
+  
+  else {
+      digitalWrite(2, LOW);
+      Serial.println("LED ON");           
+   }
+  delay(100);
+}
