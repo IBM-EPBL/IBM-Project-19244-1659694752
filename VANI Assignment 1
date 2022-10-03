@@ -1,0 +1,57 @@
+int pirsensor = 0;
+int trigger=5;
+int echo=6;
+int buzzer=11;
+long time=0;
+int distance=0;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(13, OUTPUT); //PIR
+  pinMode(7, INPUT); //PIR
+  pinMode(trigger, OUTPUT);
+  pinMode(echo, INPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop()
+{
+  pirsensor=digitalRead(7);
+  digitalWrite(trigger,LOW);
+  digitalWrite(trigger,HIGH);
+  digitalWrite(trigger,LOW);
+  
+  time = pulseIn(echo,HIGH);
+  distance = time * 0.030/2;
+  
+  if (pirsensor == HIGH) 
+  {
+    digitalWrite(13,HIGH);
+    Serial.println("Light ON");
+  }
+  else
+  {
+    digitalWrite(13,LOW);
+    Serial.println("Light OFF");
+  }
+  delay(10);
+  
+  if (distance<= 30)
+  {
+    Serial.println("Buzzer ON");
+    Serial.print ("Distance= ");
+    Serial.println (distance);
+    digitalWrite (buzzer, HIGH);
+    delay (600);
+  }
+  else
+  {
+    Serial.println("Buzzer OFF");
+    Serial.print ("Distance= ");
+    Serial.println (distance);
+    digitalWrite (buzzer, LOW);
+    delay (600);
+  }
+    
+}
